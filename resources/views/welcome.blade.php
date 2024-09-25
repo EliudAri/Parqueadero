@@ -26,7 +26,7 @@
         <h1>Bienvenido</h1>
         <nav>
             <!-- Ruta para registrar propietarios -->
-            <a href="{{ route('propietarios.registrar') }}" class="btn btn-primary">Crear Propietario</a>
+            <a href="{{ route('propietarios.registrar') }}" class="btn btn-primary">Crear Propietariossssssssss</a>
 
             <!-- Ruta para consultar propietarios -->
             <a href="{{ route('propietarios.consultar') }}" class="btn btn-success">Consultar Propietarios</a>
