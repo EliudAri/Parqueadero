@@ -1,0 +1,1 @@
+<h1>Bienvenido a la pagina de Consultar Propietarios</h1>
