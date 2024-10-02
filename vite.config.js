@@ -11,4 +11,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        outDir: 'public/build', // Cambia la ruta de salida según sea necesario
+        sourcemap: false, // Desactiva los sourcemaps para producción
+    },
 });

@@ -1,21 +1,36 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PropietariosController;
+use App\Http\Controllers\HomeController;
 
+// Ruta principal redirige a /home cuando el usuario está autenticado
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
-    Route::match(['get'], 'propietarios', [propietarios::class, 'index'])->name('propietarios.consultar');
-        Route::get('propietarios/registrar', [propietarios::class, 'create'])->name('propietarios.registrar');
-        Route::post('propietarios', [propietarios::class, 'store']);
-        Route::get('propietarios/editar/{ficha}', [propietarios::class, 'edit'])->name('propietarios.editar');
-        Route::put('propietarios/{ficha}', [propietarios::class, 'update'])->name('propietarios.update');
-        Route::delete('propietarios/{ficha}', [propietarios::class, 'destroy'])->name('propietarios.destroy');
-        Route::get('propietarios/{ficha}', [propietarios::class, 'show'])->name('propietarios.show');
+// Protege todas las rutas, incluida la principal y las de propietarios
+Route::middleware(['auth'])->group(function () {
+    
+    // Ruta para mostrar la página de bienvenida solo a usuarios logueados
+    Route::get('/welcome', function () {
+        return view('welcome');
+    })->name('welcome');
 
+    // Rutas relacionadas con propietarios
+    Route::prefix('propietarios')->name('propietarios.')->group(function () {
+        Route::get('/', [PropietariosController::class, 'index'])->name('consultar');
+        Route::get('/registrar', [PropietariosController::class, 'create'])->name('registrar');
+        Route::post('/', [PropietariosController::class, 'store']);
+        Route::get('/editar/{ficha}', [PropietariosController::class, 'edit'])->name('editar');
+        Route::put('/{ficha}', [PropietariosController::class, 'update'])->name('update');
+        Route::delete('/{ficha}', [PropietariosController::class, 'destroy'])->name('destroy');
+        Route::get('/{ficha}', [PropietariosController::class, 'show'])->name('show');
+    });
 
+    // Ruta protegida para el panel de usuario autenticado
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+});
 
+// Rutas de autenticación generadas por Laravel
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
